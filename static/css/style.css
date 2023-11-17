@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.cameras {
+    margin-top: 20px;
+}
+
+.table {
+    margin-top: 50px;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.card {
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.ip-content {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.toggle-ip-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.card-container {
+    width: 100vw;
+    height: 100vh;
+    margin-top: 70px;
+    align-items: center;
+    justify-items: center;
+}

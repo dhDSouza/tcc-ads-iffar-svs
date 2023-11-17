@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar Câmera</title>
+</head>
+<body>
+    <h1>Visualizar Câmera</h1>
+    <img id="video_feed" src="{{ url_for('camera.video_feed', camera_id=camera_id) }}" alt="Video Feed">
+</body>
+</html>
