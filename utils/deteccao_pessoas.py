@@ -117,7 +117,7 @@ def realizar_contagem(camera_ip, linha, entrada):
                                     ids.append(_id)
                                     mongo.get_database().get_collection('registros').insert_one({
                                         'camera_ip': camera_ip,
-                                        'entrada': datetime.now(),
+                                        'entrada': datetime.now().timestamp(),
                                         'saida': ''
                                     })
                                     cv2.line(frame, (linha[0], linha[1]), (linha[2], linha[3]), (0, 255, 0), 2)
@@ -129,7 +129,7 @@ def realizar_contagem(camera_ip, linha, entrada):
                                     ids.append(_id)
                                     mongo.get_database().get_collection('registros').insert_one({
                                         'camera_ip': camera_ip,
-                                        'entrada': datetime.now(),
+                                        'entrada': datetime.now().timestamp(),
                                         'saida': ''
                                     })                                    
                                     cv2.line(frame, (linha[0], linha[1]), (linha[2], linha[3]), (0, 255, 0), 2)
@@ -143,7 +143,7 @@ def realizar_contagem(camera_ip, linha, entrada):
                                     ids.append(_id)
                                     mongo.get_database().get_collection('registros').insert_one({
                                         'camera_ip': camera_ip,
-                                        'entrada': datetime.now(),
+                                        'entrada': datetime.now().timestamp(),
                                         'saida': ''
                                     })                                    
                                     cv2.line(frame, (linha[0], linha[1]), (linha[2], linha[3]), (0, 255, 0), 2)
@@ -155,7 +155,7 @@ def realizar_contagem(camera_ip, linha, entrada):
                                         ids.append(_id)
                                         mongo.get_database().get_collection('registros').insert_one({
                                             'camera_ip': camera_ip,
-                                            'entrada': datetime.now(),
+                                            'entrada': datetime.now().timestamp(),
                                             'saida': ''
                                         })
                                         cv2.line(frame, (linha[0], linha[1]), (linha[2], linha[3]), (0, 255, 0), 2)
@@ -172,7 +172,7 @@ def realizar_contagem(camera_ip, linha, entrada):
                                     mongo.get_database().get_collection('registros').insert_one({
                                         'camera_ip': camera_ip,
                                         'entrada': '',
-                                        'saida': datetime.now()
+                                        'saida': datetime.now().timestamp()
                                     })
                                     cv2.line(frame, (linha[0], linha[1]), (linha[2], linha[3]), (0, 0, 255), 2)
 
@@ -184,7 +184,7 @@ def realizar_contagem(camera_ip, linha, entrada):
                                     mongo.get_database().get_collection('registros').insert_one({
                                         'camera_ip': camera_ip,
                                         'entrada': '',
-                                        'saida': datetime.now()
+                                        'saida': datetime.now().timestamp()
                                     })                                    
                                     cv2.line(frame, (linha[0], linha[1]), (linha[2], linha[3]), (0, 0, 255), 2)
 
@@ -198,7 +198,7 @@ def realizar_contagem(camera_ip, linha, entrada):
                                     mongo.get_database().get_collection('registros').insert_one({
                                         'camera_ip': camera_ip,
                                         'entrada': '',
-                                        'saida': datetime.now()
+                                        'saida': datetime.now().timestamp()
                                     })                                    
                                     cv2.line(frame, (linha[0], linha[1]), (linha[2], linha[3]), (0, 0, 255), 2)
 
@@ -210,7 +210,7 @@ def realizar_contagem(camera_ip, linha, entrada):
                                         mongo.get_database().get_collection('registros').insert_one({
                                             'camera_ip': camera_ip,
                                             'entrada': '',
-                                            'saida': datetime.now()
+                                            'saida': datetime.now().timestamp()
                                         })                                        
                                         cv2.line(frame, (linha[0], linha[1]), (linha[2], linha[3]), (0, 0, 255), 2)
                         
