@@ -2,6 +2,7 @@ import os
 from flask import Blueprint, render_template, url_for, request, jsonify, session, redirect, Response
 from models.camera_model import Camera
 from utils.deteccao_pessoas import realizar_contagem, realizar_heatmap
+from datetime import datetime
 
 camera_bp = Blueprint('camera', __name__, url_prefix='/camera')
 
@@ -154,3 +155,33 @@ def video_feed(camera_id):
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     else:
         return redirect(url_for('camera.listar_cameras'))
+
+@camera_bp.route('/relatorio', methods=['GET', 'POST'])
+def gerar_relatorio():
+    from app import verificar_login, mongo
+
+    if verificar_login():
+
+        if request.method == 'POST':
+
+            camera_ip = request.form.get('camera_ip')
+            data_inicio = request.form.get("data_inicio")
+            data_fim = request.form.get("data_fim")
+
+            data_inicio = datetime.strptime(data_inicio, '%Y-%m-%dT%H:%M').timestamp()
+            data_fim = datetime.strptime(data_fim, '%Y-%m-%dT%H:%M').timestamp()
+
+            total_entradas = mongo.get_database().get_collection('registros').count_documents({
+                'entrada': {
+                    '$gte': data_inicio,
+                    '$lte': data_fim
+                }
+            })
+            
+            return render_template('relatorio.html', camera_ip=camera_ip, total_entradas=total_entradas)
+
+        cameras = Camera().list_cameras_contagem()
+
+        return render_template('formulario_relatorio.html', cameras=cameras)
+
+    return redirect(url_for('auth.login'))
