@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório</title>
+</head>
+<body>
+    <h1>Gerar Relatório</h1>
+    <form action="{{ url_for('camera.gerar_relatorio') }}" method="post">
+        <label for="camera_ip">Selecione a câmera:</label>
+        <select name="camera_ip" id="camera_ip">
+            {% for camera in cameras %}
+                <option value="{{ camera.ip }}">{{ camera.name }} - {{ camera.ip }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="data_inicio">Data de início:</label>
+        <input type="datetime-local" name="data_inicio" required>
+        <br>
+        <label for="data_fim">Data de fim:</label>
+        <input type="datetime-local" name="data_fim" required>
+        <br>
+        <input type="submit" value="Gerar Relatório">
+    </form>
+</body>
+</html>
