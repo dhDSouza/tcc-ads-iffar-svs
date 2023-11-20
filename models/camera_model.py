@@ -20,6 +20,11 @@ class Camera:
         from app import mongo
         return list(mongo.get_database().get_collection('cameras').find())
 
+    def list_cameras_contagem(self):
+        from app import mongo
+        query = {'linha': {'$exists': True}, 'entrada': {'$exists': True}}
+        return list(mongo.get_database().get_collection('cameras').find(query))
+
     def get_camera_by_id(self, camera_id):
         from app import mongo
         return mongo.get_database().get_collection('cameras').find_one({'_id': ObjectId(camera_id)})
