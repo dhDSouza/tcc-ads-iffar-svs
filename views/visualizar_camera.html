@@ -10,7 +10,7 @@
 <body>
     <div class="video_container">
         <h1 class="text-center mb-4">Visualizar Câmera</h1>
-        <img id="video_feed" src="{{ url_for('camera.video_feed', camera_id=camera_id) }}" alt="Video Feed" class="img-fluid">
+        <img id="video_feed" src="{{ url_for('camera.video_feed', camera_id=camera_id, tipo=tipo) }}" alt="Video Feed" class="img-fluid">
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
