@@ -124,8 +124,8 @@ def excluir_camera(id):
 
     return redirect(url_for('auth.login'))
 
-@camera_bp.route('/visualizar/<camera_id>')
-def visualizar_camera(camera_id):
+@camera_bp.route('/visualizar/<camera_id>/<tipo>')
+def visualizar_camera(camera_id, tipo):
     from app import verificar_login
 
     if verificar_login():
@@ -134,27 +134,29 @@ def visualizar_camera(camera_id):
         if not camera:
             return redirect(url_for('camera.listar_cameras'))
 
-        return render_template('visualizar_camera.html', camera_id=camera_id)
+        return render_template('visualizar_camera.html', camera_id=camera_id, tipo=tipo)
 
     return redirect(url_for('auth.login'))
 
-@camera_bp.route('/video_feed/<camera_id>')
-def video_feed(camera_id):
-    camera = Camera().get_camera_by_id(camera_id)
+@camera_bp.route('/video_feed/<camera_id>/<tipo>')
+def video_feed(camera_id, tipo):
 
-    if camera:
-        linha = camera.get('linha')
-        entrada = camera.get('entrada')
-        camera_ip = camera.get('ip')
+    if tipo == 'contagem':
+        camera = Camera().get_camera_by_id(camera_id)
 
-        if linha and entrada:
-            return Response(realizar_contagem(camera_ip, linha, entrada),
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
-        else:
-            return Response(realizar_heatmap(camera_ip),
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
+        if camera:
+            linha = camera.get('linha')
+            entrada = camera.get('entrada')
+            camera_ip = camera.get('ip')
+
+            if linha and entrada:
+                return Response(realizar_contagem('pessoas.mp4', linha, entrada),
+                            mimetype='multipart/x-mixed-replace; boundary=frame')
+            else:
+                return redirect(url_for('camera.listar_cameras'))
     else:
-        return redirect(url_for('camera.listar_cameras'))
+        return Response(realizar_heatmap('pessoas.mp4'),
+                mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @camera_bp.route('/relatorio', methods=['GET', 'POST'])
 def gerar_relatorio():
