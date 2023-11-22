@@ -1,5 +1,8 @@
 body {
     margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f8f9fa;
 }
 
 a {
@@ -11,7 +14,7 @@ a {
 }
 
 .table {
-    margin-top: 50px;
+    margin-top: 5vh;    
 }
 
 .login {
@@ -19,7 +22,6 @@ a {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    margin: 0;
 }
 
 .card {
@@ -27,6 +29,20 @@ a {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+}
+
+.card h3 {
+    text-align: center;
+    color: #007bff;
+}
+
+.card form {
+    margin-top: 20px;
+}
+
+.card button {
+    width: 100%;
 }
 
 .ip-content {
@@ -51,17 +67,27 @@ a {
 }
 
 .video_container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
+    margin: 20px auto;
+    max-width: 640px;
 }
 
 #video_feed {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+section {
+    min-height: 91vh;
+    margin-top: 10vh;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
