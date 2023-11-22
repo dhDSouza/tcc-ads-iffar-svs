@@ -7,7 +7,7 @@ auth_bp = Blueprint('auth', __name__)
 def index():
     from app import verificar_login
     if verificar_login():
-        return render_template('index.html')
+        return redirect(url_for('camera.listar_cameras'))
     
     return redirect(url_for('auth.login'))
  
