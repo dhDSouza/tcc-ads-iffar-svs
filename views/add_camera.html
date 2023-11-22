@@ -1,53 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Adicionar Câmera</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <div class="card-container">
-        <div class="container">
-            <h3>Adicionar Câmera</h3>
-            <form id="adicionarCamera" method="POST">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="Digite o nome da câmera">
-                </div>
-                <div class="mb-3">
-                    <label for="name" class="form-label">IP</label>
-                    <input type="text" class="form-control" name="ip" placeholder="Digite o IP da câmera">
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="contagemCheckbox" name="contagem">
-                    <label class="form-check-label" for="contagemCheckbox">Fazer contagem</label>
-                </div>
-                <div id="camposContagem" style="display: none;">
-                    <label for="linha" class="form-label">Coordenadas da Linha (x1, y1, x2, y2)</label>
-                    <input type="text" class="form-control" name="linha" placeholder="Digite as coordenadas da linha">
-                    <label for="entrada" class="form-label">Entrada</label>
-                    <select class="form-select" name="entrada">
-                        <option value="esquerda">Esquerda</option>
-                        <option value="direita">Direita</option>
-                        <option value="cima">Cima</option>
-                        <option value="baixo">Baixo</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Salvar</button><br>
-                {% if data: %}
-                    <br><br>
-                    <div class="alert alert-danger" role="alert">{{data}}</div>
-                {% endif %}
-            </form>        
+{% extends 'base.html' %}
+{% block title %}Adicionar Câmera{% endblock %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="mb-4">Adicionar Câmera</h1>
+                <form id="adicionarCamera" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome</label>
+                        <input type="text" class="form-control" name="name" placeholder="Digite o nome da câmera" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">IP</label>
+                        <input type="text" class="form-control" name="ip" placeholder="Digite o IP da câmera" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="contagemCheckbox" name="contagem">
+                        <label class="form-check-label" for="contagemCheckbox">Fazer contagem</label>
+                    </div>
+                    <div class="mb-3" id="camposContagem" style="display: none;">
+                        <label for="linha" class="form-label">Coordenadas da Linha (x1, y1, x2, y2)</label>
+                        <input type="text" class="form-control" name="linha" placeholder="Digite as coordenadas da linha">
+                        <label for="entrada" class="form-label">Entrada</label>
+                        <select class="form-select" name="entrada">
+                            <option value="esquerda">Esquerda</option>
+                            <option value="direita">Direita</option>
+                            <option value="cima">Cima</option>
+                            <option value="baixo">Baixo</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <a href="{{ url_for('camera.listar_cameras') }}" class="btn btn-danger">Cancelar</a>
+                    {% if data: %}
+                        <div class="alert alert-danger mt-3" role="alert">{{data}}</div>
+                    {% endif %}
+                </form>
+            </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         document.getElementById('contagemCheckbox').addEventListener('change', function() {
             var camposContagem = document.getElementById('camposContagem');
             camposContagem.style.display = this.checked ? 'block' : 'none';
         });
     </script>
-</body>
-</html>
+{% endblock %}

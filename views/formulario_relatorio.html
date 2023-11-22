@@ -1,28 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatório</title>
-</head>
-<body>
-    <h1>Gerar Relatório</h1>
-    <form action="{{ url_for('camera.gerar_relatorio') }}" method="post">
-        <label for="camera_ip">Selecione a câmera:</label>
-        <select name="camera_ip" id="camera_ip">
-            {% for camera in cameras %}
-                <option value="{{ camera.ip }}">{{ camera.name }} - {{ camera.ip }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <label for="data_inicio">Data de início:</label>
-        <input type="datetime-local" name="data_inicio" required>
-        <br>
-        <label for="data_fim">Data de fim:</label>
-        <input type="datetime-local" name="data_fim" required>
-        <br>
-        <input type="submit" value="Gerar Relatório">
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Gerar Relatório{% endblock %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="mb-4">Gerar Relatório</h1>
+                <form action="{{ url_for('camera.gerar_relatorio') }}" method="post" id="gerarRelatorioForm">
+                    <div class="mb-3">
+                        <label for="camera_ip" class="form-label">Selecione a câmera:</label>
+                        <select name="camera_ip" id="camera_ip" class="form-select" required>
+                            {% for camera in cameras %}
+                                <option value="{{ camera.ip }}">{{ camera.name }} - {{ camera.ip }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="data_inicio" class="form-label">Data de início:</label>
+                        <input type="datetime-local" name="data_inicio" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="data_fim" class="form-label">Data de fim:</label>
+                        <input type="datetime-local" name="data_fim" class="form-control" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="gerarRelatorio()">Gerar Relatório</button>
+                    <a href="{{ url_for('camera.listar_cameras') }}">
+                        <button type="button" class="btn btn-danger">Cancelar</button>
+                    </a>                    
+                </form>
+
+                <div id="relatorioContainer" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function gerarRelatorio() {
+            
+            var formData = new FormData(document.getElementById('gerarRelatorioForm'));
+            
+            fetch("{{ url_for('camera.gerar_relatorio') }}", {
+                method: "POST",
+                body: formData
+            }).then(response => response.json()).then(data => {
+                var relatorioHtml = `<p>Total de Entradas no Período: ${data.total_entradas}</p>`;
+                document.getElementById('relatorioContainer').innerHTML = relatorioHtml;
+            }).catch(error => {
+                console.error(error);
+            });
+        }
+    </script>
+{% endblock %}
