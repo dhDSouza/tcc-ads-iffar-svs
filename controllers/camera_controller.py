@@ -45,14 +45,36 @@ def adicionar_camera():
             if contagem_checkbox:
 
                 linha_form = request.form.get('linha')
-                linha = list(map(int, linha_form.split(',')))
                 entrada = request.form.get('entrada')
 
-                if not (linha[0] == linha[2] or linha[1] == linha[3]):
-                    data = 'A linha precisa ser vertical ou horizontal!'
-                    return render_template('add_camera.html', data=data)
+                if linha_form is not None and entrada is not None:
+                    linha = list(map(int, linha_form.split(',')))
 
-                new_camera = Camera().add_camera(name, ip, linha=linha, entrada=entrada)
+                    if not (linha[0] == linha[2] or linha[1] == linha[3]):
+                        data = 'A linha precisa ser vertical ou horizontal!'
+                        return render_template('add_camera.html', data=data)
+
+                    elif linha[0] == linha[2]:
+
+                        if linha[1] == linha[3]:
+                            data = 'Para uma linha na vertical os valores do eixo Y devem ser diferentes'
+                            return render_template('add_camera.html', data=data)
+
+                        if entrada is not 'esquerda' or entrada is not 'direita':
+                            data = 'A entrada precisa ser esquerda ou direita!'
+                            return render_template('add_camera.html', data=data)
+
+                    elif linha[1] == linha[3]:
+
+                        if linha[0] == linha[2]:
+                            data = 'Para uma linha na horizontal os valores do eixo X devem ser diferentes'
+                            return render_template('add_camera.html', data=data)
+
+                        if entrada is not 'cima' or entrada is not 'baixo':
+                            data = 'A entrada precisa ser cima ou baixo!'
+                            return render_template('add_camera.html', data=data)
+                
+                    new_camera = Camera().add_camera(name, ip, linha=linha, entrada=entrada)
 
             else:
 
@@ -61,7 +83,6 @@ def adicionar_camera():
             return redirect(url_for('camera.listar_cameras'))
 
     return redirect(url_for('auth.login'))
-
 
 @camera_bp.route('/editar/<id>', methods=['GET', 'POST'])
 def editar_camera(id):
@@ -78,6 +99,9 @@ def editar_camera(id):
 
         else:
 
+            linha = None
+            entrada = None            
+
             name = request.form.get('name')
             ip = request.form.get('ip')
             contagem_checkbox = request.form.get('contagem')
@@ -85,13 +109,34 @@ def editar_camera(id):
             if contagem_checkbox:
 
                 linha_form = request.form.get('linha')
-                linha = list(map(int, linha_form.split(',')))
                 entrada = request.form.get('entrada')
-        
-            else:
 
-                linha = None
-                entrada = None
+                if linha_form is not None and entrada is not None:
+                    linha = list(map(int, linha_form.split(',')))
+
+                    if not (linha[0] == linha[2] or linha[1] == linha[3]):
+                        data = 'A linha precisa ser vertical ou horizontal!'
+                        return render_template('add_camera.html', data=data)
+
+                    elif linha[0] == linha[2]:
+
+                        if linha[1] == linha[3]:
+                            data = 'Para uma linha na vertical os valores do eixo Y devem ser diferentes'
+                            return render_template('add_camera.html', data=data)
+
+                        if entrada is not 'esquerda' or entrada is not 'direita':
+                            data = 'A entrada precisa ser esquerda ou direita!'
+                            return render_template('add_camera.html', data=data)
+
+                    elif linha[1] == linha[3]:
+
+                        if linha[0] == linha[2]:
+                            data = 'Para uma linha na horizontal os valores do eixo X devem ser diferentes'
+                            return render_template('add_camera.html', data=data)
+
+                        if entrada is not 'cima' or entrada is not 'baixo':
+                            data = 'A entrada precisa ser cima ou baixo!'
+                            return render_template('add_camera.html', data=data)
 
             exist_ip = Camera().get_camera_by_ip(ip)
 
@@ -104,7 +149,6 @@ def editar_camera(id):
             return redirect(url_for('camera.listar_cameras'))
 
     return redirect(url_for('auth.login'))
-
 
 @camera_bp.route('/excluir/<id>', methods=['GET'])
 def excluir_camera(id):
@@ -179,8 +223,12 @@ def gerar_relatorio():
                     '$lte': data_fim
                 }
             })
-            
-            return render_template('relatorio.html', camera_ip=camera_ip, total_entradas=total_entradas)
+
+            resultados = {
+                'total_entradas': total_entradas
+            }
+
+            return jsonify(resultados)
 
         cameras = Camera().list_cameras_contagem()
 
