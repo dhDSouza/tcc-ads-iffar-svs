@@ -60,7 +60,7 @@ def adicionar_camera():
                             data = 'Para uma linha na vertical os valores do eixo Y devem ser diferentes'
                             return render_template('add_camera.html', data=data)
 
-                        if entrada is not 'esquerda' or entrada is not 'direita':
+                        if entrada == 'cima' or entrada == 'baixo':
                             data = 'A entrada precisa ser esquerda ou direita!'
                             return render_template('add_camera.html', data=data)
 
@@ -70,7 +70,7 @@ def adicionar_camera():
                             data = 'Para uma linha na horizontal os valores do eixo X devem ser diferentes'
                             return render_template('add_camera.html', data=data)
 
-                        if entrada is not 'cima' or entrada is not 'baixo':
+                        if entrada == 'esquerda' or entrada == 'direita':
                             data = 'A entrada precisa ser cima ou baixo!'
                             return render_template('add_camera.html', data=data)
                 
@@ -124,7 +124,7 @@ def editar_camera(id):
                             data = 'Para uma linha na vertical os valores do eixo Y devem ser diferentes'
                             return render_template('add_camera.html', data=data)
 
-                        if entrada is not 'esquerda' or entrada is not 'direita':
+                        if entrada == 'cima' or entrada == 'baixo':
                             data = 'A entrada precisa ser esquerda ou direita!'
                             return render_template('add_camera.html', data=data)
 
@@ -134,9 +134,14 @@ def editar_camera(id):
                             data = 'Para uma linha na horizontal os valores do eixo X devem ser diferentes'
                             return render_template('add_camera.html', data=data)
 
-                        if entrada is not 'cima' or entrada is not 'baixo':
+                        if entrada == 'esquerda' or entrada == 'direita':
                             data = 'A entrada precisa ser cima ou baixo!'
                             return render_template('add_camera.html', data=data)
+
+            else:
+
+                linha = None
+                entrada = None
 
             exist_ip = Camera().get_camera_by_ip(ip)
 
@@ -185,21 +190,24 @@ def visualizar_camera(camera_id, tipo):
 @camera_bp.route('/video_feed/<camera_id>/<tipo>')
 def video_feed(camera_id, tipo):
 
-    if tipo == 'contagem':
-        camera = Camera().get_camera_by_id(camera_id)
+    camera = Camera().get_camera_by_id(camera_id)
+    camera_ip = camera.get('ip')
 
+    if tipo == 'contagem':
+        
         if camera:
             linha = camera.get('linha')
             entrada = camera.get('entrada')
-            camera_ip = camera.get('ip')
 
             if linha and entrada:
-                return Response(realizar_contagem('pessoas.mp4', linha, entrada),
+                return Response(realizar_contagem(camera_ip, linha, entrada),
                             mimetype='multipart/x-mixed-replace; boundary=frame')
             else:
                 return redirect(url_for('camera.listar_cameras'))
-    else:
-        return Response(realizar_heatmap('pessoas.mp4'),
+
+    elif tipo == 'heatmap':
+
+        return Response(realizar_heatmap(camera_ip),
                 mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @camera_bp.route('/relatorio', methods=['GET', 'POST'])
@@ -218,6 +226,7 @@ def gerar_relatorio():
             data_fim = datetime.strptime(data_fim, '%Y-%m-%dT%H:%M').timestamp()
 
             total_entradas = mongo.get_database().get_collection('registros').count_documents({
+                'camera_ip': camera_ip,
                 'entrada': {
                     '$gte': data_inicio,
                     '$lte': data_fim
