@@ -22,7 +22,8 @@ class Camera:
 
     def list_cameras_contagem(self):
         from app import mongo
-        query = {'linha': {'$exists': True}, 'entrada': {'$exists': True}}
+
+        query = {'$and': [{'linha': {'$ne': None}}, {'entrada': {'$ne': None}}]}
         return list(mongo.get_database().get_collection('cameras').find(query))
 
     def get_camera_by_id(self, camera_id):
