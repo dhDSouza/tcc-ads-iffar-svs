@@ -5,19 +5,24 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <h1 class="mb-4">Adicionar Câmera</h1>
+                <!-- Formulário para adicionar câmera -->
                 <form id="adicionarCamera" method="POST">
+                    <!-- Campo para o nome da câmera -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>
                         <input type="text" class="form-control" name="name" placeholder="Digite o nome da câmera" required>
                     </div>
+                    <!-- Campo para o IP da câmera -->
                     <div class="mb-3">
                         <label for="name" class="form-label">IP</label>
                         <input type="text" class="form-control" name="ip" placeholder="Digite o IP da câmera" required>
                     </div>
+                    <!-- Checkbox para ativar a contagem -->
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="contagemCheckbox" name="contagem">
                         <label class="form-check-label" for="contagemCheckbox">Fazer contagem</label>
                     </div>
+                    <!-- Campos adicionais para configuração da contagem -->
                     <div class="mb-3" id="camposContagem" style="display: none;">
                         <label for="linha" class="form-label">Coordenadas da Linha (x1, y1, x2, y2)</label>
                         <input type="text" class="form-control" name="linha" placeholder="Digite as coordenadas da linha">
@@ -29,20 +34,22 @@
                             <option value="baixo">Baixo</option>
                         </select>
                     </div>
+                    <!-- Botões para salvar e cancelar -->
                     <button type="submit" class="btn btn-primary">Salvar</button>
                     <a href="{{ url_for('camera.listar_cameras') }}" class="btn btn-danger">Cancelar</a>
+                    <!-- Exibe mensagem de erro, se houver -->
                     {% if data: %}
                         <div class="alert alert-danger mt-3" role="alert">{{data}}</div>
                     {% endif %}
                 </form>
+                <!-- Script para mostrar/ocultar campos de contagem -->
+                <script>
+                    document.getElementById('contagemCheckbox').addEventListener('change', function() {
+                        var camposContagem = document.getElementById('camposContagem');
+                        camposContagem.style.display = this.checked ? 'block' : 'none';
+                    });
+                </script>
             </div>
         </div>
     </div>
-
-    <script>
-        document.getElementById('contagemCheckbox').addEventListener('change', function() {
-            var camposContagem = document.getElementById('camposContagem');
-            camposContagem.style.display = this.checked ? 'block' : 'none';
-        });
-    </script>
 {% endblock %}

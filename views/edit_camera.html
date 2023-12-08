@@ -1,27 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}Editar Câmera{% endblock %}
 {% block content %}
+    <!-- Início do bloco de conteúdo -->
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <h1 class="mb-4">Editar Câmera</h1>
+                <!-- Formulário para editar a câmera -->
                 <form id="editarCamera" action="" method="POST">
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome</label>
+                        <!-- Campo de entrada para o nome da câmera com valor pré-carregado -->
                         <input type="text" class="form-control" name="name" value="{{ camera.name }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="ip" class="form-label">IP</label>
+                        <!-- Campo de entrada para o IP da câmera com valor pré-carregado -->
                         <input type="text" class="form-control" name="ip" value="{{ camera.ip }}" required>
                     </div>
                     <div class="mb-3 form-check">
+                        <!-- Caixa de seleção para ativar/desativar contagem, com verificação se a câmera já possui configurações de contagem -->
                         <input type="checkbox" class="form-check-input" id="contagemCheckbox" name="contagem" {% if camera.linha and camera.entrada %} checked {% endif %}>
                         <label class="form-check-label" for="contagemCheckbox">Fazer contagem</label>
                     </div>
                     <div class="mb-3" id="camposContagem" {% if not camera.linha or not camera.entrada %} style="display: none;" {% endif %}>
+                        <!-- Campos de configuração de contagem, visíveis apenas se a contagem estiver ativada -->
                         <label for="linha" class="form-label">Coordenadas da Linha (x1, y1, x2, y2)</label>
+                        <!-- Campo de entrada para coordenadas da linha, com valor pré-carregado se existir -->
                         <input type="text" class="form-control" name="linha" placeholder="Digite as coordenadas da linha" {% if camera.linha %} value="{{ camera.linha | join(', ') }}" {% endif %}>
                         <label for="entrada" class="form-label">Entrada</label>
+                        <!-- Menu suspenso para selecionar a direção da entrada, com a opção pré-selecionada com base nas configurações atuais -->
                         <select class="form-select" name="entrada">
                             <option value="esquerda" {% if camera.entrada == 'esquerda' %} selected {% endif %}>Esquerda</option>
                             <option value="direita" {% if camera.entrada == 'direita' %} selected {% endif %}>Direita</option>
@@ -29,6 +37,7 @@
                             <option value="baixo" {% if camera.entrada == 'baixo' %} selected {% endif %}>Baixo</option>
                         </select>
                     </div>
+                    <!-- Botões para salvar, cancelar e exibir mensagens de erro -->
                     <button type="submit" class="btn btn-primary">Salvar</button>
                     <a href="{{ url_for('camera.listar_cameras') }}" class="btn btn-danger">Cancelar</a>
                     {% if data: %}
@@ -38,11 +47,12 @@
             </div>
         </div>
     </div>
-
+    <!-- Script para exibir/ocultar campos de contagem ao alterar a caixa de seleção -->
     <script>
         document.getElementById('contagemCheckbox').addEventListener('change', function() {
             var camposContagem = document.getElementById('camposContagem');
             camposContagem.style.display = this.checked ? 'block' : 'none';
         });
     </script>
+    <!-- Fim do bloco de conteúdo -->
 {% endblock %}

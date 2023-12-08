@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- Metadados da página -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
+
+    <!-- Inclusão dos estilos CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <div class="login">
-    <div class="card">
-      <h3 class="mb-4">Login</h3>
-      <form action="" method="POST">
-        <div class="mb-3">
-          <label for="email" class="form-label">E-mail</label>
-          <input type="email" class="form-control" name="email" placeholder="Digite seu e-mail">
+    <!-- Container principal para o formulário de login -->
+    <div class="login">
+        <div class="card">
+            <!-- Título da página de login -->
+            <h3 class="mb-4">Login</h3>
+
+            <!-- Formulário de login -->
+            <form action="" method="POST">
+                <!-- Campo de e-mail -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" name="email" placeholder="Digite seu e-mail">
+                </div>
+
+                <!-- Campo de senha -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Senha</label>
+                    <input type="password" class="form-control" name="password" placeholder="Digite sua senha">
+                </div>
+
+                <!-- Botão de submissão do formulário -->
+                <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
         </div>
-        <div class="mb-3">
-          <label for="password" class="form-label">Senha</label>
-          <input type="password" class="form-control" name="password" placeholder="Digite sua senha">
-        </div>
-        <button type="submit" class="btn btn-primary">Entrar</button>
-      </form>
     </div>
-  </div>
-  <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Inclusão do script JavaScript do Bootstrap -->
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

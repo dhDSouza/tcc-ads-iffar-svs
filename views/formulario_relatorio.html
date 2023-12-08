@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
+
 {% block title %}Gerar Relatório{% endblock %}
+
 {% block content %}
+    <!-- Container principal -->
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 offset-md-2">
+                <!-- Título da página -->
                 <h1 class="mb-4">Gerar Relatório</h1>
+
+                <!-- Formulário para gerar relatório -->
                 <form action="{{ url_for('camera.gerar_relatorio') }}" method="post" id="gerarRelatorioForm">
+                    <!-- Seleção da câmera -->
                     <div class="mb-3">
                         <label for="camera_ip" class="form-label">Selecione a câmera:</label>
                         <select name="camera_ip" id="camera_ip" class="form-select" required>
@@ -14,36 +21,47 @@
                             {% endfor %}
                         </select>
                     </div>
+
+                    <!-- Entrada da data de início -->
                     <div class="mb-3">
                         <label for="data_inicio" class="form-label">Data de início:</label>
                         <input type="datetime-local" name="data_inicio" class="form-control" required>
                     </div>
+
+                    <!-- Entrada da data de fim -->
                     <div class="mb-3">
                         <label for="data_fim" class="form-label">Data de fim:</label>
                         <input type="datetime-local" name="data_fim" class="form-control" required>
                     </div>
+
+                    <!-- Botões para gerar e cancelar -->
                     <button type="button" class="btn btn-primary" onclick="gerarRelatorio()">Gerar Relatório</button>
                     <a href="{{ url_for('camera.listar_cameras') }}">
                         <button type="button" class="btn btn-danger">Cancelar</button>
-                    </a>                    
+                    </a>
                 </form>
 
+                <!-- Container para exibir o relatório -->
                 <div id="relatorioContainer" class="mt-4"></div>
             </div>
         </div>
     </div>
+
+    <!-- Script JavaScript para enviar solicitação de relatório -->
     <script>
         function gerarRelatorio() {
-            
             var formData = new FormData(document.getElementById('gerarRelatorioForm'));
             
+            // Envia a solicitação POST para gerar o relatório
             fetch("{{ url_for('camera.gerar_relatorio') }}", {
                 method: "POST",
                 body: formData
             }).then(response => response.json()).then(data => {
+                // Atualiza o conteúdo do container com os dados do relatório
                 var relatorioHtml = `<p>Total de Entradas no Período: ${data.total_entradas}</p>`;
                 document.getElementById('relatorioContainer').innerHTML = relatorioHtml;
             }).catch(error => {
+                // Trata erros, se houver
                 console.error(error);
             });
         }

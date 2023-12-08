@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
+
 {% block title %}Visualizar Câmera{% endblock %}
+
 {% block content %}
+    <!-- Container para o vídeo da câmera -->
     <div class="container video-container justify-content-center align-items-center">
         <div class="text-center">
+            <!-- Título da página -->
             <h1 class="mb-4">Visualizar Câmera</h1>
+
+            <!-- Imagem do vídeo, usando a URL gerada dinamicamente com Flask -->
             <img id="video_feed" src="{{ url_for('camera.video_feed', camera_id=camera_id, tipo=tipo) }}" alt="Video Feed" class="img-fluid">
         </div>
+
         <div class="text-center mt-3">
+            <!-- Botão para voltar à lista de câmeras -->
             <a href="{{ url_for('camera.listar_cameras') }}">
                 <button type="button" class="btn btn-danger">Voltar</button>
             </a>
