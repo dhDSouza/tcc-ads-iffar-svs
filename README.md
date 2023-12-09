@@ -63,7 +63,7 @@ Siga as etapas abaixo para configurar e executar o projeto localmente:
 1. **Clone o repositório:**
 
 ```shell
-git clone https://github.com/dhDSouza/tcc-computer-vision.git
+git clone https://github.com/dhDSouza/tcc-ads-iffar-svs.git
 ```
 
 2. **Instale as dependências:**
