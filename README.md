@@ -94,7 +94,7 @@ SECRET_KEY = 'chave aleatória'
 5. **Execute o servidor Flask com o comando:**
 
 ```shell
-    flask run
+flask run
 ```
 
 Isso iniciará a aplicação Flask, e você poderá acessar a interface web através do navegador.
